@@ -94,4 +94,13 @@ app.post("/analyze", async (req, res) => {
 ========================= */
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Backend running on port ${PORT}`);
+});// =====================
+// Environment validation
+// =====================
+const REQUIRED_VARS = ["MONGO_URI", "ML_BASE_URL", "PORT"];
+
+REQUIRED_VARS.forEach((key) => {
+  if (!process.env[key]) {
+    console.warn("Environment variable " + key + " is not set");
+  }
 });

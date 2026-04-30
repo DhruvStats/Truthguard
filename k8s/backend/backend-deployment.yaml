@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthguard-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: truthguard-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: ML_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: truthguard-config
+                  key: ML_BASE_URL
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: truthguard-config
+                  key: MONGO_URI

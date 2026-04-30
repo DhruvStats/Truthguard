@@ -9,7 +9,7 @@ export default function App() {
       </div>
 
       <div className="subtitle">
-        Real‑time AI verification to protect editorial integrity and prevent misinformation🌍
+        Real-time AI verification to protect editorial integrity and prevent misinformation 🌍
       </div>
 
       <Analyzer />

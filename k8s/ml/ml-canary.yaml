@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml
+      track: canary
+  template:
+    metadata:
+      labels:
+        app: ml
+        track: canary
+    spec:
+      containers:
+        - name: ml
+          image: truthguard-ml:canary
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000

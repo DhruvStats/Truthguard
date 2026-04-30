@@ -1,0 +1,58 @@
+@startuml
+title TruthGuard — Deployment Diagram
+
+node "User Browser" {
+  component "Web UI"
+}
+
+node "Docker Host" {
+
+  node "Frontend Container" {
+    component "React + Vite\nPort 5173"
+  }
+
+  node "Backend Container" {
+    component "Node.js / Express\nPort 5000"
+  }
+
+  node "ML Container" {
+    component "FastAPI ML Service\nPort 8000"
+  }
+
+  node "MongoDB Container" {
+    component "MongoDB\nPort 27017"
+  }
+}
+
+node "Kubernetes Cluster (Minikube)" {
+
+  node "ML Deployment (Stable)" {
+    component "3 Pods\ntruthguard-ml:latest"
+  }
+
+  node "ML Deployment (Canary)" {
+    component "1 Pod\ntruthguard-ml:canary"
+  }
+
+  component "ML Service (ClusterIP)"
+  component "Horizontal Pod Autoscaler"
+}
+
+"Web UI" --> "React + Vite\nPort 5173" : HTTP
+"React + Vite\nPort 5173" --> "Node.js / Express\nPort 5000" : HTTP :5000
+"Node.js / Express\nPort 5000" --> "FastAPI ML Service\nPort 8000" : HTTP :8000
+"Node.js / Express\nPort 5000" --> "MongoDB\nPort 27017" : MongoDB
+
+"Node.js / Express\nPort 5000" --> "ML Service (ClusterIP)" : HTTP
+"ML Service (ClusterIP)" --> "3 Pods\ntruthguard-ml:latest"
+"ML Service (ClusterIP)" --> "1 Pod\ntruthguard-ml:canary"
+
+"Horizontal Pod Autoscaler" --> "ML Deployment (Stable)"
+"Horizontal Pod Autoscaler" --> "ML Deployment (Canary)"
+
+legend right
+| Color | Meaning |
+| Gray | Local Docker deployment |
+| Blue | Kubernetes-managed components |
+endlegend
+@enduml

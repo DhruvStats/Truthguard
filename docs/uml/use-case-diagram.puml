@@ -1,0 +1,37 @@
+@startuml
+title TruthGuard — Use Case Diagram
+
+left to right direction
+
+actor Journalist as J
+actor "System Administrator" as A
+actor "ML Engineer" as M
+
+rectangle "TruthGuard System" {
+
+  J -- (Submit news text for analysis)
+  J -- (View prediction result)
+
+  (View prediction result) <|-- (View confidence score) : <<extend>>
+  (View prediction result) <|-- (View explanation) : <<extend>>
+
+  A -- (Review prediction history)
+  A -- (Monitor model drift)
+
+  (Monitor model drift) --> (Trigger retraining alert) : <<include>>
+
+  M -- (Retrain model)
+  M -- (Deploy new model version)
+}
+
+note right of (View explanation)
+  The explanation provides
+  human-readable reasoning
+  and confidence context.
+end note
+
+note bottom
+TruthGuard is a decision-support system.
+Final editorial decisions remain with the human user.
+end note
+@enduml

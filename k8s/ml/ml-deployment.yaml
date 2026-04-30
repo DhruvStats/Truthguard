@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-stable
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ml
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: ml
+        track: stable
+    spec:
+      containers:
+        - name: ml
+          image: truthguard-ml:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000

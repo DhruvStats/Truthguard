@@ -1,0 +1,4 @@
+name: Drift Monitor
+on:
+  schedule:
+    - cron: "0 0 * * *"

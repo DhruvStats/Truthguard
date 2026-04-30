@@ -2,22 +2,59 @@ name: TruthGuard CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build-test-deploy:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    # ------------------------------------------------------------
+    # Step 1 — Checkout repository
+    # ------------------------------------------------------------
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Build services
-        run: docker compose build
+    # ------------------------------------------------------------
+    # Step 2 — Set up Docker Buildx
+    # ------------------------------------------------------------
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v3
 
-      - name: Start services
-        run: docker compose up -d
+    # ------------------------------------------------------------
+    # Step 3 — Build containers
+    # ------------------------------------------------------------
+    - name: Build services with Docker Compose
+      run: |
+        docker compose build
 
-      - name: Backend health check
-        run: curl -f http://localhost:5000/analyze || true
+    # ------------------------------------------------------------
+    # Step 4 — Start services
+    # ------------------------------------------------------------
+    - name: Start services
+      run: |
+        docker compose up -d
+
+    # ------------------------------------------------------------
+    # Step 5 — Wait for services to be ready
+    # ------------------------------------------------------------
+    - name: Wait for services to start
+      run: |
+        echo "Waiting 10 seconds for services..."
+        sleep 10
+
+    # ------------------------------------------------------------
+    # Step 6 — Backend health check (CORRECT endpoint)
+    # ------------------------------------------------------------
+    - name: Backend health check
+      run: |
+        curl -f http://localhost:5000/health
+
+    # ------------------------------------------------------------
+    # Step 7 — Run ML tests (pytest)
+    # ------------------------------------------------------------
+    - name: Run ML test suite
+      run: |
+        docker compose exec ml pytest ml/tests/ -v

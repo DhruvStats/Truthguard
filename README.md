@@ -99,6 +99,61 @@ Entire system can be started with a single command.
 ### 1️⃣ Navigate to project root
 ```bash
 cd newsguard-ai
----
+```
 ### 2️⃣ Clean any previous containers
 docker compose down --remove-orphans --volumes
+``
+
+### 3️⃣ Build all services
+Shelldocker compose build --no-cacheShow more lines
+``
+### 4️⃣ Start the full system
+Shelldocker compose upShow more lines
+``
+## 🌐 Service Endpoints
+ServiceURLFrontendhttp://localhost:5173Backend healthhttp://localhost:5000/healthML service healthhttp://localhost:8000/healthML API docshttp://localhost:8000/docs
+``
+## ✅ Responsible AI Principles
+TruthGuard follows Responsible AI best practices:
+
+Human‑in‑the‑loop: AI supports, humans decide
+Transparency: Confidence scores and explanations
+Accountability: Logged predictions
+Safety: Input validation and error handling
+Ethics: No automated enforcement or censorship
+
+
+## 🏛️ Regulatory Consideration
+Conceptually aligns with EU AI Act – Limited Risk AI:
+
+Advisory role only
+Explicit uncertainty communication
+Explainability by design
+
+
+## 🧪 Testing & Quality Assurance
+
+Backend API tests (Node.js)
+ML tests using Pytest:
+
+API correctness
+Robustness checks
+Metamorphic testing
+Model quality validation
+
+### 📦 Technologies Used
+Frontend: React, Vite, HTML, CSS
+Backend: Node.js, Express, Axios
+ML: Python, FastAPI, Scikit‑learn, SHAP
+Database: MongoDB
+DevOps: Docker, Docker Compose, GitHub Actions
+Version Control: Git, GitHub
+
+## 📌 Project Context
+This project was developed as an AI Systems Engineering / MSc‑level academic project, demonstrating:
+
+End‑to‑end AI system design
+Explainable Machine Learning deployment
+Microservice architecture
+DevOps and CI/CD practices
+Responsible AI awareness
